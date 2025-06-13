@@ -78,3 +78,59 @@ This project demonstrates:
 - **ConfigMaps**: Application configuration
 - **Health Checks**: Liveness and readiness probes
 - **Resource Limits**: CPU and memory constraints
+
+## Troubleshooting
+
+### Common Issues
+
+**"Failed to fetch" errors in browser:**
+- Ensure both frontend (8080) and backend (3000) port forwards are running
+- Check browser console for CORS errors
+- Verify pods are running: `kubectl get pods`
+
+**Pods not starting:**
+- Check pod logs: `kubectl logs <pod-name>`
+- Verify images are loaded: `docker images | grep k8s-demo`
+- Check resource constraints: `kubectl describe pod <pod-name>`
+
+**Database connection issues:**
+- Verify postgres pod is running and ready
+- Check backend logs for connection errors
+- Ensure secrets are properly applied: `kubectl get secrets`
+
+### Useful Commands
+```bash
+# View all resources
+kubectl get all
+
+# Check pod logs
+kubectl logs -f deployment/backend-deployment
+
+# Port forward services for testing
+kubectl port-forward service/frontend-service 8080:80
+kubectl port-forward service/backend-service 3000:3000
+
+# Scale deployments
+kubectl scale deployment frontend-deployment --replicas=3
+
+# Update deployment
+kubectl set image deployment/backend-deployment backend=k8s-demo-backend:v2
+
+# Clean up everything
+./cleanup.sh
+```
+
+## Architecture Details
+
+### Network Flow
+```
+Browser → Ingress → Frontend Service → Frontend Pod
+Frontend Pod → Backend Service → Backend Pod
+Backend Pod → Postgres Service → Postgres Pod
+```
+
+### Security Features
+- Secrets for database credentials
+- Non-root container users
+- Resource limits to prevent resource exhaustion
+- Health checks for automatic pod recovery

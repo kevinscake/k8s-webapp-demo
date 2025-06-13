@@ -1,0 +1,19 @@
+# Node.js
+node_modules/
+npm-debug.log*
+.env
+
+# Docker
+.dockerignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Kubernetes
+*.log
