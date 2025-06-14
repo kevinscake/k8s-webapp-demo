@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: manual
   hostPath:
-    path: /tmp/postgres-data
+    path: /var/lib/postgres-data
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
